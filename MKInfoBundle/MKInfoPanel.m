@@ -103,6 +103,28 @@
     [panel performSelector:@selector(hidePanel) withObject:view afterDelay:interval];
 }
 
++(void) showPanelInWindow:(UIWindow*) window type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval
+{
+    MKInfoPanel *panel = [MKInfoPanel infoPanel];
+    [panel setType:type];
+    panel.titleLabel.text = title;
+    if(subtitle)
+    {
+        panel.detailLabel.text = subtitle;
+    }
+    else
+    {
+        panel.detailLabel.hidden = YES;
+        panel.frame = CGRectMake(0, 20, 320, 50);
+        panel.thumbImage.frame = CGRectMake(15, 5, 35, 35);
+        panel.titleLabel.frame = CGRectMake(57, 12, 240, 21);
+        
+    }
+    
+    [window addSubview:panel];
+    [panel performSelector:@selector(hidePanel) withObject:window afterDelay:interval];
+}
+
 -(void) hidePanel
 {
     CATransition *transition = [CATransition animation];
