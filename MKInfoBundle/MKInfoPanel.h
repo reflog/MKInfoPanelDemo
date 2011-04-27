@@ -42,4 +42,6 @@ typedef enum MKInfoPanelType_
 
 +(void) showPanelInView:(UIView*) view type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval;
 
++(void) showPanelInWindow:(UIWindow*) window type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval;
+
 @end
