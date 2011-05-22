@@ -26,8 +26,15 @@ typedef enum MKInfoPanelType_
     MKInfoPanelTypeError
 } MKInfoPanelType;
 
-@interface MKInfoPanel : UIView {
+typedef enum MKInfoPanelOrigin_
+{    
+    MKInfoPanelOriginTop,
+    MKInfoPanelOriginBottom
+} MKInfoPanelOrigin;
     
+
+@interface MKInfoPanel : UIView {
+    MKInfoPanelOrigin origin;
     UILabel *_titleLabel;
     UILabel *_detailLabel;
     
@@ -40,8 +47,8 @@ typedef enum MKInfoPanelType_
 @property (nonatomic, assign) IBOutlet UIImageView *thumbImage;
 @property (nonatomic, assign) IBOutlet UIImageView *backgroundGradient;
 
-+(void) showPanelInView:(UIView*) view type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval;
++(void) showPanelInView:(UIView*) view type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval origin:(MKInfoPanelOrigin) origin;
 
-+(void) showPanelInWindow:(UIWindow*) window type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval;
++(void) showPanelInWindow:(UIWindow*) window type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval origin:(MKInfoPanelOrigin) origin;
 
 @end

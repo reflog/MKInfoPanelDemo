@@ -39,11 +39,16 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        origin = MKInfoPanelOriginTop;
         // Initialization code
     }
     return self;
 }
 
+-(void) setOrigin:(MKInfoPanelOrigin)ori
+{
+    origin = ori;
+}
 -(void) setType:(MKInfoPanelType)type
 {
     if(type == MKInfoPanelTypeError)
@@ -65,25 +70,25 @@
     }
         
 }
-+(MKInfoPanel*) infoPanel
++(MKInfoPanel*) infoPanelWithOrigin:(MKInfoPanelOrigin) origin
 {
     MKInfoPanel *panel =  (MKInfoPanel*) [[[UINib nibWithNibName:@"MKInfoPanel" bundle:nil] 
                                            instantiateWithOwner:self options:nil] objectAtIndex:0];
 
-    
+    [panel setOrigin:origin];    
     CATransition *transition = [CATransition animation];
 	transition.duration = 0.25;
 	transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 	transition.type = kCATransitionPush;	
-	transition.subtype = kCATransitionFromBottom;
+	transition.subtype = origin == MKInfoPanelOriginTop ? kCATransitionFromBottom : kCATransitionFromTop;
 	[panel.layer addAnimation:transition forKey:nil];
     
     return panel;
 }
 
-+(void) showPanelInView:(UIView*) view type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval
++(void) showPanelInView:(UIView*) view type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval origin:(MKInfoPanelOrigin) origin
 {
-    MKInfoPanel *panel = [MKInfoPanel infoPanel];
+    MKInfoPanel *panel = [MKInfoPanel infoPanelWithOrigin:origin];
     [panel setType:type];
     panel.titleLabel.text = title;
     if(subtitle)
@@ -98,14 +103,18 @@
         panel.titleLabel.frame = CGRectMake(57, 12, 240, 21);
         
     }
-    
+    if(origin == MKInfoPanelOriginBottom){
+        CGRect fr = panel.frame;
+        fr.origin.y = view.frame.size.height - fr.size.height;
+        panel.frame = fr;
+    }
     [view addSubview:panel];
     [panel performSelector:@selector(hidePanel) withObject:view afterDelay:interval];
 }
 
-+(void) showPanelInWindow:(UIWindow*) window type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval
++(void) showPanelInWindow:(UIWindow*) window type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval origin:(MKInfoPanelOrigin) origin
 {
-    MKInfoPanel *panel = [MKInfoPanel infoPanel];
+    MKInfoPanel *panel = [MKInfoPanel infoPanelWithOrigin:origin];
     [panel setType:type];
     panel.titleLabel.text = title;
     if(subtitle)
@@ -121,6 +130,12 @@
         
     }
     
+    if(origin == MKInfoPanelOriginBottom){
+        CGRect fr = panel.frame;
+        fr.origin.y = window.frame.size.height - fr.size.height;
+        panel.frame = fr;
+    }
+    
     [window addSubview:panel];
     [panel performSelector:@selector(hidePanel) withObject:window afterDelay:interval];
 }
@@ -131,10 +146,12 @@
 	transition.duration = 0.25;
 	transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 	transition.type = kCATransitionPush;	
-	transition.subtype = kCATransitionFromTop;
+	transition.subtype = origin == MKInfoPanelOriginTop ?  kCATransitionFromTop : kCATransitionFromBottom;
 	[self.layer addAnimation:transition forKey:nil];
-    self.frame = CGRectMake(0, -self.frame.size.height, 320, self.frame.size.height); 
-    
+    if(origin == MKInfoPanelOriginTop){
+        self.frame = CGRectMake(0, -self.frame.size.height, 320, self.frame.size.height); 
+    }else    
+        self.frame = CGRectMake(0, [self superview ].frame.size.height, 320, self.frame.size.height); 
     [self performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:0.25];
 }
 

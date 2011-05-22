@@ -52,7 +52,7 @@
                             type:MKInfoPanelTypeInfo 
                            title:@"Tweet Posted!" 
                         subtitle:nil 
-                       hideAfter:2];
+                       hideAfter:2 origin:MKInfoPanelOriginTop];
 }
 
 -(IBAction) button2Tapped:(id) sender
@@ -61,7 +61,7 @@
                             type:MKInfoPanelTypeInfo 
                            title:@"Tweet Posted!" 
                         subtitle:@"Arigatou!" 
-                       hideAfter:2];
+                       hideAfter:2  origin:MKInfoPanelOriginBottom];
 }
 
 -(IBAction) button3Tapped:(id) sender
@@ -70,7 +70,7 @@
                             type:MKInfoPanelTypeError
                            title:@"Network Failure!" 
                         subtitle:nil 
-                       hideAfter:2];
+                       hideAfter:2  origin:MKInfoPanelOriginTop];
 }
 
 -(IBAction) button4Tapped:(id) sender
@@ -79,7 +79,7 @@
                             type:MKInfoPanelTypeError 
                            title:@"Network Failure!" 
                         subtitle:@"Check your internet connection and try again later!" 
-                       hideAfter:2];
+                       hideAfter:2  origin:MKInfoPanelOriginBottom];
 }
 
 
