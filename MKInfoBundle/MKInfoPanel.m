@@ -140,6 +140,17 @@
     [panel performSelector:@selector(hidePanel) withObject:window afterDelay:interval];
 }
 
+
++(void) showPanelInView:(UIView*) view type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval {
+    [MKInfoPanel showPanelInView:view type:type title:title subtitle:subtitle hideAfter:interval origin:MKInfoPanelOriginTop];
+}
+
++(void) showPanelInWindow:(UIWindow*) window type:(MKInfoPanelType) type title:(NSString*) title subtitle:(NSString*) subtitle hideAfter:(NSTimeInterval) interval {
+    [MKInfoPanel showPanelInWindow:window type:type title:title subtitle:subtitle hideAfter:interval origin:MKInfoPanelOriginTop];
+    
+}
+
+
 -(void) hidePanel
 {
     CATransition *transition = [CATransition animation];
